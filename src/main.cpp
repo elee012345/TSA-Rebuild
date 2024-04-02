@@ -51,8 +51,9 @@ lemlib::TrackingWheel x_tracking_wheel(
 lemlib::TrackingWheel y_tracking_wheel(
 	&yTracking, // encoder
 	3.25,
-	-1.25984252// " offset from tracking center
+	-1.506 // " offset from tracking center
 );
+// -1.25984252
 
 lemlib::OdomSensors_t sensors {
 	&y_tracking_wheel, // vertical tracking wheel 1
