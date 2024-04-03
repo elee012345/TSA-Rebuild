@@ -224,22 +224,23 @@ void newSixBall() {
 	chassis.moveTo(53, -41, 300);
 	// fling triball to descore
 	chassis.turnTo(30, -26, 300, true, 500);
-	chassis.turnTo(63, -26, 400, true);
+	chassis.turnTo(68, -26, 400, true);
 	back_left_wing.set_value(false);
-	pros::delay(100);
+	pros::delay(300);
 	// push into goal
-	chassis.moveTo(64, -26, 1000, 360);
+	chassis.moveTo(68, -26, 1000, 360);
 	// go forward and spin
-	chassis.moveTo(60, -34, 500, 360);
-	chassis.turnTo(60, -23, 700);
+	chassis.moveTo(68, -34, 500, 360);
+	chassis.turnTo(100, -23, 300);
+	chassis.turnTo(chassis.getPose().x, -23, 700);
 	// score third triball
 	intake.move_voltage(-12000);
 	pros::delay(500);
-	chassis.moveTo(60, -19, 600, 360);
+	chassis.moveTo(67, -19, 600, 360);
 	// chassis.moveTo(60, -33, 700, 360);
 	// chassis.moveTo(60, -23, 1000, 360);
 	intake.move_voltage(0);
-	chassis.moveTo(60, -48, 600);
+	chassis.moveTo(63, -48, 600);
 	// go to mid
 	chassis.turnTo(5, -33, 400);
 	intake.move_voltage(12000);
@@ -257,16 +258,17 @@ void newSixBall() {
 	chassis.moveTo(7, -8, 600, 360);
 	// turn towards goal
 	chassis.turnTo(14, 17, 100, false, 200);
-	chassis.turnTo(42, -8, 500, false, 200);
+	chassis.turnTo(42, -8, 700, false, 200);
 	// push into goal
 	intake.move_voltage(-12000);
+	pros::delay(600);
 	front_left_wing.set_value(true);
 	front_right_wing.set_value(true);
-	chassis.moveTo(42, -8, 900, 360);
-	intake.move_voltage(0);
+	chassis.moveTo(42, chassis.getPose().y, 900, 360);
 	front_left_wing.set_value(false);
 	front_right_wing.set_value(false);
 	chassis.turnTo(15, -15, 700, true, 200);
+	intake.move_voltage(0);
 	chassis.moveTo(15, -15, 3000, 360);
 	
 
