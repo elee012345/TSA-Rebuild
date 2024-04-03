@@ -111,6 +111,7 @@ void initialize() {
 	// 	}
 	// }
 	chassis.calibrate();
+	chassis.setPose(0, 0, 0);
 	// while(imu.is_calibrating()) {
 	// 	pros::delay(20);
 	// } 
@@ -143,11 +144,136 @@ void competition_initialize() {}
 void close_side_auton() {
 	
 	chassis.setPose(-33, -58, 0);
+	// fling triball with wing
 	front_right_wing.set_value(true);
 	pros::delay(200);
 	front_right_wing.set_value(false);
-	//intake.move_voltage(-12000);
-	chassis.moveTo(-23, -9, 2000, 360);
+	// grab first triball
+	intake.move_voltage(12000);
+	chassis.moveTo(-28, -27, 700, 360);
+	chassis.turnTo(-28, -8.5, 400);
+	chassis.moveTo(-28, -8.5, 800, 360);
+	intake.move_voltage(0);
+
+	// go back a little bit so we don't cross the center line
+	chassis.moveTo(-28, -12, 1000);
+
+	// turn to second triball and push over
+	chassis.turnTo(0, -12, 1000);
+	intake.move_voltage(-12000);
+	pros::delay(300);
+	front_left_wing.set_value(true);
+	front_right_wing.set_value(true);
+	// push
+	chassis.moveTo(-6, -12, 1000);
+	intake.move_voltage(0);
+	front_left_wing.set_value(false);
+	front_right_wing.set_value(false);
+
+	chassis.moveTo(-23, -30, 1000);
+	chassis.turnTo(-53, -44, 1000, true);
+	chassis.moveTo(-53, -44, 3000);
+	back_left_wing.set_value(true);
+	chassis.turnTo(-40, -61, 1000, true);
+	chassis.moveTo(-40, -61, 1000);
+	back_left_wing.set_value(false);
+	chassis.turnTo(1, -58, 1000, true);
+	chassis.moveTo(1, -58, 2000);
+	
+	
+}
+
+void ballz(){
+	chassis.setPose(36.772, -59.647, 0);
+
+	//Fling matchload
+	// front_right_wing.set_value(true);
+	// pros::delay(200);
+	// front_right_wing.set_value(false);
+
+	//Intake under crossbar
+	chassis.turnTo(0, -67, 1000, false);
+	intake.move_voltage(12000);
+	chassis.moveTo(6, -59, 2000);
+	pros::delay(600);
+	intake.move_voltage(0);
+
+	//Descore
+	chassis.moveTo(47, -54, 2000);
+
+	
+
+
+}
+
+void newSixBall() {
+	chassis.setPose(14, -58, 270);
+	intake.move_voltage(12000);
+	// grab first triball
+	chassis.moveTo(5, -59, 1000);
+	intake.move_voltage(0);
+	// go back to descore
+	chassis.moveTo(48, -46, 1000, 150);
+	// // go to right place to descore
+	// chassis.turnTo(50, -44, 1000, true);
+	// chassis.moveTo(50, -44, 1000);
+	// descore
+	back_left_wing.set_value(true);
+	// go to right place to descore
+	chassis.turnTo(53, -41, 300, true);
+	chassis.moveTo(53, -41, 300);
+	// fling triball to descore
+	chassis.turnTo(30, -26, 300, true, 500);
+	chassis.turnTo(63, -26, 400, true);
+	back_left_wing.set_value(false);
+	pros::delay(100);
+	// push into goal
+	chassis.moveTo(64, -26, 1000, 360);
+	// go forward and spin
+	chassis.moveTo(60, -34, 500, 360);
+	chassis.turnTo(60, -23, 700);
+	// score third triball
+	intake.move_voltage(-12000);
+	pros::delay(500);
+	chassis.moveTo(60, -19, 600, 360);
+	// chassis.moveTo(60, -33, 700, 360);
+	// chassis.moveTo(60, -23, 1000, 360);
+	intake.move_voltage(0);
+	chassis.moveTo(60, -48, 600);
+	// go to mid
+	chassis.turnTo(5, -33, 400);
+	intake.move_voltage(12000);
+	chassis.moveTo(5, -33, 1000, 360);
+	// outtake towards goal
+	chassis.turnTo(45, 0, 700);
+	intake.move_voltage(-8000);
+	pros::delay(600);
+	intake.move_voltage(0);
+	// go to other triball
+	chassis.turnTo(2, -1, 500);
+	intake.move_voltage(12000);
+	chassis.moveTo(2, -1, 800, 150);
+	// move back a bit
+	chassis.moveTo(7, -8, 600, 360);
+	// turn towards goal
+	chassis.turnTo(14, 17, 100, false, 200);
+	chassis.turnTo(42, -8, 500, false, 200);
+	// push into goal
+	intake.move_voltage(-12000);
+	front_left_wing.set_value(true);
+	front_right_wing.set_value(true);
+	chassis.moveTo(42, -8, 900, 360);
+	intake.move_voltage(0);
+	front_left_wing.set_value(false);
+	front_right_wing.set_value(false);
+	chassis.turnTo(15, -15, 700, true, 200);
+	chassis.moveTo(15, -15, 3000, 360);
+	
+
+
+
+
+
 }
 
 void testing() {
@@ -169,7 +295,7 @@ void testing() {
  * from where it left off.
  */
 void autonomous() {
-	testing();
+	newSixBall();
 }
 
 /**
@@ -189,8 +315,7 @@ void opcontrol() {
 	double drive, turn;
 	bool backWingToggle = false;
 	bool frontWingToggle = false;
-	chassis.calibrate();
-	chassis.setPose(0, 0, 0);
+	
 	
 	while(true) {
 		drive = master.get_analog(ANALOG_LEFT_Y) / 127.0;
