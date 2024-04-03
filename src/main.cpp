@@ -66,8 +66,8 @@ lemlib::OdomSensors_t sensors {
 
 // forward/backward PID (untuned)
 lemlib::ChassisController_t lateralController {
-    3, // kP
-    0, // kD
+    6, // kP
+    1, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
@@ -77,7 +77,7 @@ lemlib::ChassisController_t lateralController {
  
 // turning PID (untuned)
 lemlib::ChassisController_t angularController {
-    2, // kP
+    1, // kP
     0, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
@@ -153,8 +153,8 @@ void close_side_auton() {
 void testing() {
 	
 	chassis.setPose(0, 0, 0);
-	//chassis.moveTo(0, 24, 3000, 360);
-	chassis.turnTo(30, 0, 10000);
+	chassis.moveTo(0, 24, 10000, 360);
+	//chassis.turnTo(30, 30, 10000);
 }
 
 /**
