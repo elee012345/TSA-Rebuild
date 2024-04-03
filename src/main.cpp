@@ -19,8 +19,8 @@ pros::Motor 		left_intake(12, MOTOR_GEAR_BLUE, true);
 pros::Motor 		right_intake(13, MOTOR_GEAR_BLUE, false);
 pros::Motor_Group	intake({left_intake, right_intake});
 
-pros::ADIDigitalOut	back_right_wing('B', true);
-pros::ADIDigitalOut	back_left_wing('C', true);
+pros::ADIDigitalOut	back_right_wing('B', false);
+pros::ADIDigitalOut	back_left_wing('C', false);
 
 pros::ADIDigitalOut	front_left_wing('D', false);
 pros::ADIDigitalOut	front_right_wing('E', false);
@@ -77,7 +77,7 @@ lemlib::ChassisController_t lateralController {
  
 // turning PID (untuned)
 lemlib::ChassisController_t angularController {
-    0.2, // kP
+    2, // kP
     0, // kD
     1, // smallErrorRange
     100, // smallErrorTimeout
@@ -93,7 +93,6 @@ lemlib::Chassis chassis(
 	sensors
 );
 
-lemlib::Pose pose(chassis.getPose());
 
 
 
@@ -101,18 +100,20 @@ lemlib::Pose pose(chassis.getPose());
  * Runs initialization code. This occurs as soon as the program is started.
  *
  * All other competition modes are blocked by initialize; it is recommended
- * to keep execution time for this mode under a few seconds.
+ * to keep execution time for this mode under a few seconds.	
  */
 void initialize() {
-	if(pros::competition::is_autonomous()) {
-		pros::lcd::initialize();
-		chassis.calibrate();
-		while(imu.is_calibrating()) {
-			pros::delay(20);
-		}
-	}
-	back_left_wing.set_value(false);
-	back_right_wing.set_value(false);
+	// if(pros::competition::is_autonomous()) {
+	// 	pros::lcd::initialize();
+	// 	chassis.calibrate();
+	// 	while(imu.is_calibrating()) {
+	// 		pros::delay(20);
+	// 	}
+	// }
+	chassis.calibrate();
+	// while(imu.is_calibrating()) {
+	// 	pros::delay(20);
+	// }
 
 	left_drive.set_brake_modes(MOTOR_BRAKE_BRAKE);
 	right_drive.set_brake_modes(MOTOR_BRAKE_BRAKE);
@@ -140,6 +141,7 @@ void disabled() {}
 void competition_initialize() {}
 
 void close_side_auton() {
+	
 	chassis.setPose(-33, -58, 0);
 	front_right_wing.set_value(true);
 	pros::delay(200);
@@ -149,6 +151,7 @@ void close_side_auton() {
 }
 
 void testing() {
+	
 	chassis.setPose(0, 0, 0);
 	//chassis.moveTo(0, 24, 3000, 360);
 	chassis.turnTo(30, 0, 10000);
