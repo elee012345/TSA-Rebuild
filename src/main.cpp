@@ -113,7 +113,7 @@ void initialize() {
 	chassis.calibrate();
 	// while(imu.is_calibrating()) {
 	// 	pros::delay(20);
-	// }
+	// } 
 
 	left_drive.set_brake_modes(MOTOR_BRAKE_BRAKE);
 	right_drive.set_brake_modes(MOTOR_BRAKE_BRAKE);
